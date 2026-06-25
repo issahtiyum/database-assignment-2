@@ -1,0 +1,339 @@
+CREATE TABLE Employee(
+    ->     empNo VARCHAR(10) PRIMARY KEY,
+    ->     fName VARCHAR(50) NOT NULL,
+    ->     lName VARCHAR(50) NOT NULL,
+    ->     address VARCHAR(100),
+    ->     DOB DATE,
+    ->     sex CHAR(1), CHECK (sex IN ('F', 'M')),
+    ->     position VARCHAR(50), CHECK (position IN('Manager', 'Team Leader', 'Analyst', 'Software Developer')),
+    ->     deptNo INT
+    -> );
+Query OK, 0 rows affected (0.055 sec)
+
+
+
+CREATE TABLE Department(
+    ->     deptNo INT PRIMARY KEY,
+    ->     deptName VARCHAR(100) NOT NULL,
+    ->     mgrEmpNo VARCHAR(10),
+    ->     FOREIGN KEY (mgrEmpNo) REFERENCES Employee(empNo)
+    -> );
+Query OK, 0 rows affected (0.036 sec)
+
+
+
+ALTER TABLE Employee 
+    ->     ADD FOREIGN KEY (deptNo) REFERENCES Department(deptNo);
+Query OK, 0 rows affected (0.065 sec)              
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+CREATE TABLE Project(
+    ->     projNo VARCHAR(10) PRIMARY KEY,
+    ->     projName VARCHAR(100) NOT NULL,
+    ->     deptNo INT NOT NULL,
+    ->     FOREIGN KEY (deptNo) REFERENCES Department(deptNo)
+    -> );
+Query OK, 0 rows affected (0.026 sec)
+
+
+
+CREATE TABLE WorksOn(
+    ->     empNo VARCHAR(10),
+    ->     projNo VARCHAR(10),
+    ->     dateWorked DATE,
+    ->     hoursWorked INT, CHECK(hoursWorked BETWEEN 0 AND 40),
+    ->     PRIMARY KEY (empNo, projNo, dateWorked),
+    ->     FOREIGN KEY (empNo) REFERENCES Employee(empNo),
+    ->     FOREIGN KEY (projNo) REFERENCES Project(projNo)
+    -> );
+Query OK, 0 rows affected (0.030 sec)
+
+
+
+INSERT INTO Department VALUES
+    -> (1,  'Software Engineering',     NULL),
+    -> (2,  'Data Analytics',           NULL),
+    -> (3,  'Human Resources',          NULL),
+    -> (4,  'Finance',                  NULL),
+    -> (5,  'Marketing',                NULL),
+    -> (6,  'Operations',               NULL),
+    -> (7,  'Research and Development', NULL),
+    -> (8,  'IT Support',               NULL),
+    -> (9,  'Cybersecurity',            NULL),
+    -> (10, 'Mobile Development',       NULL),
+    -> (11, 'Quality Assurance',        NULL),
+    -> (12, 'DevOps',                   NULL),
+    -> (13, 'Product Management',       NULL),
+    -> (14, 'Business Intelligence',    NULL),
+    -> (15, 'Customer Success',         NULL);
+Query OK, 15 rows affected (0.011 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+
+
+INSERT INTO Employee VALUES
+    ('E1',  'Kwame',   'Mensah',   'Accra',      '1985-03-15', 'M', 'Manager',           1),
+    ('E2',  'Ama',     'Owusu',    'Kumasi',     '1988-07-22', 'F', 'Manager',           2),
+    ('E3',  'Kofi',    'Asante',   'Accra',      '1992-11-05', 'M', 'Analyst',           9),
+    ('E4',  'Akosua',  'Boateng',  'Tema',       '1990-04-18', 'F', 'Manager',           3),
+    ('E5',  'Yaw',     'Darko',    'Accra',      '1995-08-30', 'M', 'Software Developer',12),
+    ('E6',  'Abena',   'Osei',     'Kumasi',     '1987-12-10', 'F', 'Manager',           4),
+    ('E7',  'Kwabena', 'Appiah',   'Accra',      '1993-05-25', 'M', 'Analyst',           10),
+    ('E8',  'Efua',    'Agyei',    'Takoradi',   '1991-09-14', 'F', 'Manager',           15),
+    ('E9',  'Nana',    'Amoah',    'Accra',      '1989-02-28', 'M', 'Team Leader',       8),
+    ('E10', 'Adwoa',   'Frimpong', 'Accra',      '1986-06-17', 'F', 'Manager',           6),
+    ('E11', 'Kojo',    'Amponsah', 'Kumasi',     '1994-10-03', 'M', 'Software Developer',11),
+    ('E12', 'Esi',     'Asare',    'Accra',      '1992-01-20', 'F', 'Manager',           13),
+    ('E13', 'Fiifi',   'Bonsu',    'Cape Coast', '1988-07-08', 'M', 'Team Leader',       7),
+    ('E14', 'Maame',   'Dankwa',   'Accra',      '1990-03-12', 'F', 'Manager',           14),
+    ('E15', 'Kweku',   'Tetteh',   'Accra',      '1996-11-25', 'M', 'Team Leader',       5);
+Query OK, 15 rows affected (0.003 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+
+
+UPDATE Department SET mgrEmpNo = 'E1'  WHERE deptNo = 1;
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E2'  WHERE deptNo = 2; 
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E4'  WHERE deptNo = 3; 
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E6'  WHERE deptNo = 4; 
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E15' WHERE deptNo = 5;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E10' WHERE deptNo = 6; 
+Query OK, 1 row affected (0.000 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E13' WHERE deptNo = 7;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E9'  WHERE deptNo = 8;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E3'  WHERE deptNo = 9;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E7'  WHERE deptNo = 10;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E11' WHERE deptNo = 11;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E5'  WHERE deptNo = 12;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E12' WHERE deptNo = 13;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E14' WHERE deptNo = 14;
+Query OK, 1 row affected (0.000 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Department SET mgrEmpNo = 'E8'  WHERE deptNo = 15;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+
+INSERT INTO Project VALUES
+    -> ('SCCS',     'Student Course Credit System',  1),
+    -> ('GHPAY',    'Ghana Payment Gateway',         1),
+    -> ('EDTECH',   'Education Technology Platform', 2),
+    -> ('AGRIDATA', 'Agriculture Data System',       2),
+    -> ('HRMS',     'HR Management System',          3),
+    -> ('FINRPT',   'Financial Reporting Tool',      4),
+    -> ('MKTANA',   'Marketing Analytics Dashboard', 5),
+    -> ('OPSTRACK', 'Operations Tracker',            6),
+    -> ('RDPROJ',   'RD Innovation Project',         7),
+    -> ('ITSUP',    'IT Support Portal',             8),
+    -> ('CYBSEC',   'Cybersecurity Dashboard',       9),
+    -> ('MOBAPP',   'Mobile Banking App',            10),
+    -> ('QATEST',   'QA Testing Framework',          11),
+    -> ('DEVOPS1',  'DevOps Pipeline Automation',    12),
+    -> ('BIBOARD',  'BI Analytics Board',            14);
+Query OK, 15 rows affected (0.003 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+
+
+INSERT INTO WorksOn VALUES
+    -> ('E1',  'SCCS',     '2026-06-01', 8),
+    -> ('E1',  'GHPAY',    '2026-06-02', 6),
+    -> ('E1',  'EDTECH',   '2026-06-03', 7),
+    -> ('E2',  'EDTECH',   '2026-06-01', 9),
+    -> ('E2',  'AGRIDATA', '2026-06-02', 8),
+    -> ('E3',  'SCCS',     '2026-06-01', 6),
+    -> ('E3',  'GHPAY',    '2026-06-03', 5),
+    -> ('E4',  'HRMS',     '2026-06-01', 8),
+    -> ('E5',  'SCCS',     '2026-06-02', 7),
+    -> ('E5',  'DEVOPS1',  '2026-06-01', 9),
+    -> ('E6',  'FINRPT',   '2026-06-01', 8),
+    -> ('E7',  'EDTECH',   '2026-06-02', 6),
+    -> ('E8',  'MKTANA',   '2026-06-01', 8),
+    -> ('E9',  'SCCS',     '2026-06-03', 5),
+    -> ('E10', 'OPSTRACK', '2026-06-01', 9),
+    -> ('E11', 'QATEST',   '2026-06-02', 7),
+    -> ('E12', 'BIBOARD',  '2026-06-01', 8);
+Query OK, 17 rows affected (0.003 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+
+
+CREATE VIEW FemaleManagerProjects AS
+    -> SELECT * FROM Project
+    -> WHERE deptNo IN (
+    ->   SELECT deptNo FROM Department
+    ->   WHERE mgrEmpNo IN (
+    ->     SELECT empNo FROM Employee
+    ->     WHERE sex = 'F'
+    ->   )
+    -> )
+    -> ORDER BY projNo;
+Query OK, 0 rows affected (0.024 sec)
+
+
+
+CREATE VIEW EmployeeWork AS
+    -> SELECT w.empNo, e.fName, e.lName, p.projName, w.hoursWorked
+    -> FROM WorksOn w
+    -> JOIN Employee e ON e.empNo = w.empNo
+    -> JOIN Project p ON p.projNo = w.projNo;
+Query OK, 0 rows affected (0.026 sec)
+
+
+
+CREATE VIEW EmpProject(empNo, projNo, totalHours)
+    -> AS SELECT w.empNo, w.projNo, SUM(hoursWorked)
+    -> FROM Employee e, Project p, WorksOn w
+    -> WHERE e.empNo = w.empNo AND p.projNo = w.projNo
+    -> GROUP BY w.empNo, w.projNo;
+Query OK, 0 rows affected (0.024 sec)
+
+
+
+SELECT * FROM EmpProject;
++-------+----------+------------+
+| empNo | projNo   | totalHours |
++-------+----------+------------+
+| E1    | EDTECH   |          7 |
+| E1    | GHPAY    |          6 |
+| E1    | SCCS     |          8 |
+| E10   | OPSTRACK |          9 |
+| E11   | QATEST   |          7 |
+| E12   | BIBOARD  |          8 |
+| E2    | AGRIDATA |          8 |
+| E2    | EDTECH   |          9 |
+| E3    | GHPAY    |          5 |
+| E3    | SCCS     |          6 |
+| E4    | HRMS     |          8 |
+| E5    | DEVOPS1  |          9 |
+| E5    | SCCS     |          7 |
+| E6    | FINRPT   |          8 |
+| E7    | EDTECH   |          6 |
+| E8    | MKTANA   |          8 |
+| E9    | SCCS     |          5 |
++-------+----------+------------+
+17 rows in set (0.006 sec)
+
+
+
+SELECT projNo
+    -> FROM EmpProject
+    -> WHERE projNo = 'SCCS';
++--------+
+| projNo |
++--------+
+| SCCS   |
+| SCCS   |
+| SCCS   |
+| SCCS   |
++--------+
+4 rows in set (0.003 sec)
+
+
+
+SELECT COUNT(projNo)
+    -> FROM EmpProject
+    -> WHERE empNo = 'E1';
++---------------+
+| COUNT(projNo) |
++---------------+
+|             3 |
++---------------+
+1 row in set (0.001 sec)
+
+
+
+SELECT empNo, totalHours
+    -> FROM EmpProject
+    -> GROUP BY empNo;
++-------+------------+
+| empNo | totalHours |
++-------+------------+
+| E1    |          7 |
+| E10   |          9 |
+| E11   |          7 |
+| E12   |          8 |
+| E2    |          8 |
+| E3    |          5 |
+| E4    |          8 |
+| E5    |          9 |
+| E6    |          8 |
+| E7    |          6 |
+| E8    |          8 |
+| E9    |          5 |
++-------+------------+
+12 rows in set (0.001 sec)
+
+
+
+-----------------------------------------------------------------------------------------------------
+7.15
+GRANT ALL PRIVILEGES 
+ON cheapestHotel 
+TO Manager, Director
+WITH GRANT OPTION;
+
+GRANT ALL PRIVILEGES 
+ON bricsGuests 
+TO Manager, Director
+WITH GRANT OPTION;
+
+7.16
+GRANT SELECT
+ON cheapestHotel
+TO Accounts;
+
+GRANT SELECT
+ON bricsGuests
+TO Accounts;
+
+
+REVOKE SELECT
+ON cheapestHotel
+FROM Accounts;
+
+REVOKE SELECT
+ON bricsGuests
+FROM Accounts;
