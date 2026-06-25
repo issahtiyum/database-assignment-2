@@ -1,3 +1,5 @@
+Haris Issah
+41942028
 CREATE TABLE Employee(
     ->     empNo VARCHAR(10) PRIMARY KEY,
     ->     fName VARCHAR(50) NOT NULL,
