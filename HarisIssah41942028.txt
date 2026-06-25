@@ -308,32 +308,7 @@ SELECT empNo, totalHours
 
 
 
------------------------------------------------------------------------------------------------------
-7.15
-GRANT ALL PRIVILEGES 
-ON cheapestHotel 
-TO Manager, Director
-WITH GRANT OPTION;
-
-GRANT ALL PRIVILEGES 
-ON bricsGuests 
-TO Manager, Director
-WITH GRANT OPTION;
-
-7.16
-GRANT SELECT
-ON cheapestHotel
-TO Accounts;
-
-GRANT SELECT
-ON bricsGuests
-TO Accounts;
-
-
-REVOKE SELECT
-ON cheapestHotel
-FROM Accounts;
-
-REVOKE SELECT
-ON bricsGuests
-FROM Accounts;
+A materialized view is a stores the result of a query physically on the disk for fast retrieval, unlike a normal view, which stores only the SQL query itself and runs it each time it is called.
+To maintain this database, I will create triggers that would be placed on the Part table that update when a modification occurs on the Part table.
+When a new partCost greater than 1000 is inserted, it should be added to the view directly.
+When a cheap part cost is inserted, the view does not change.
